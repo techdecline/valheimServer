@@ -1,8 +1,7 @@
 package main
 
 import (
-	//"strconv"
-	//"strings"
+	"strings"
 
 	"github.com/pulumi/pulumi-azure/sdk/v3/go/azure/compute"
 	"github.com/pulumi/pulumi-azure/sdk/v3/go/azure/core"
@@ -14,7 +13,7 @@ import (
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
 		vmName := "vm-valheim"
-		portSlice := []string{"TCP:3389", "TCP:2456", "UDP:2456", "TCP:2457", "UDP:2457", "TCP:2458", "UDP:2458"}
+		portSlice := []string{"Tcp:3389", "Tcp:2456", "Udp:2456", "Tcp:2457", "Udp:2457", "Tcp:2458", "Udp:2458"}
 
 		// Create an Azure Resource Group
 		resourceGroup, err := core.NewResourceGroup(ctx, "rg-valheim", &core.ResourceGroupArgs{
@@ -54,6 +53,29 @@ func main() {
 		})
 		if err != nil {
 			return err
+		}
+
+		for _, port := range portSlice {
+			portInfo := strings.Split(port, ":")
+			portProtocol := portInfo[0]
+			portStr := portInfo[1]
+			ruleName := portStr + "-" + portProtocol + "-rule"
+
+			_, err = network.NewNetworkSecurityRule(ctx, ruleName, &network.NetworkSecurityRuleArgs{
+				Priority:                 pulumi.Int(100),
+				Direction:                pulumi.String("Inbound"),
+				Access:                   pulumi.String("Allow"),
+				Protocol:                 pulumi.String(portProtocol),
+				SourcePortRange:          pulumi.String("*"),
+				DestinationPortRange:     pulumi.String(portStr),
+				SourceAddressPrefix:      pulumi.String("*"),
+				DestinationAddressPrefix: pulumi.String("*"),
+				ResourceGroupName:        resourceGroup.Name,
+				NetworkSecurityGroupName: nsg.Name,
+			})
+			if err != nil {
+				return err
+			}
 		}
 
 		_, err = network.NewSubnetNetworkSecurityGroupAssociation(ctx, "valheimSubnetNetworkSecurityGroupAssociation", &network.SubnetNetworkSecurityGroupAssociationArgs{
