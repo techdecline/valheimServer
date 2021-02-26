@@ -3,6 +3,7 @@ package main
 import (
 	"strings"
 
+	"github.com/pulumi/pulumi-azure/sdk/v3/go/azure/appservice"
 	"github.com/pulumi/pulumi-azure/sdk/v3/go/azure/compute"
 	"github.com/pulumi/pulumi-azure/sdk/v3/go/azure/core"
 	"github.com/pulumi/pulumi-azure/sdk/v3/go/azure/network"
@@ -13,11 +14,63 @@ import (
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
 		vmName := "vm-valheim"
-		portSlice := []string{"Tcp:3389", "Tcp:2456", "Udp:2456", "Tcp:2457", "Udp:2457", "Tcp:2458", "Udp:2458"}
+		storageAccountName := "sapulumi" + ctx.Stack()
+		appServicePlanName := "asppulumi" + ctx.Stack()
+		fnName := "fnpulumi" + ctx.Stack()
+		portSlice := []string{"Tcp:3389", "Udp:3389", "Tcp:2456", "Udp:2456", "Tcp:2457", "Udp:2457", "Tcp:2458", "Udp:2458"}
 
 		// Create an Azure Resource Group
 		resourceGroup, err := core.NewResourceGroup(ctx, "rg-valheim", &core.ResourceGroupArgs{
 			Location: pulumi.String("WestEurope"),
+		})
+		if err != nil {
+			return err
+		}
+
+		// Create Storage Account
+		storageAccount, err := storage.NewAccount(ctx, storageAccountName, &storage.AccountArgs{
+			Location:               resourceGroup.Location,
+			ResourceGroupName:      resourceGroup.Name,
+			AccountTier:            pulumi.String("Standard"),
+			AccountReplicationType: pulumi.String("LRS"),
+			Tags: pulumi.StringMap{
+				"environment": pulumi.String(ctx.Stack()),
+			},
+		})
+		if err != nil {
+			return err
+		}
+
+		// App Service Plan
+		appServicePlan, err := appservice.NewPlan(ctx, appServicePlanName, &appservice.PlanArgs{
+			Location:          resourceGroup.Location,
+			ResourceGroupName: resourceGroup.Name,
+			Sku: &appservice.PlanSkuArgs{
+				Tier: pulumi.String("Standard"),
+				Size: pulumi.String("S1"),
+			},
+			Tags: pulumi.StringMap{
+				"environment": pulumi.String(ctx.Stack()),
+			},
+		})
+		if err != nil {
+			return err
+		}
+
+		// Function App
+		fnApp, err := appservice.NewFunctionApp(ctx, fnName, &appservice.FunctionAppArgs{
+			Location:                resourceGroup.Location,
+			ResourceGroupName:       resourceGroup.Name,
+			AppServicePlanId:        appServicePlan.ID(),
+			StorageAccountName:      appServicePlan.Name,
+			StorageAccountAccessKey: storageAccount.PrimaryAccessKey,
+			Version:                 pulumi.String("~3"),
+			Identity: &appservice.FunctionAppIdentityArgs{
+				Type: pulumi.String("SystemAssigned"),
+			},
+			Tags: pulumi.StringMap{
+				"environment": pulumi.String(ctx.Stack()),
+			},
 		})
 		if err != nil {
 			return err
@@ -55,6 +108,7 @@ func main() {
 			return err
 		}
 
+		i := 101
 		for _, port := range portSlice {
 			portInfo := strings.Split(port, ":")
 			portProtocol := portInfo[0]
@@ -62,7 +116,7 @@ func main() {
 			ruleName := portStr + "-" + portProtocol + "-rule"
 
 			_, err = network.NewNetworkSecurityRule(ctx, ruleName, &network.NetworkSecurityRuleArgs{
-				Priority:                 pulumi.Int(100),
+				Priority:                 pulumi.Int(i),
 				Direction:                pulumi.String("Inbound"),
 				Access:                   pulumi.String("Allow"),
 				Protocol:                 pulumi.String(portProtocol),
@@ -76,6 +130,7 @@ func main() {
 			if err != nil {
 				return err
 			}
+			i = i + 1
 		}
 
 		_, err = network.NewSubnetNetworkSecurityGroupAssociation(ctx, "valheimSubnetNetworkSecurityGroupAssociation", &network.SubnetNetworkSecurityGroupAssociationArgs{
@@ -152,90 +207,11 @@ func main() {
 			return err
 		}
 
-		// Create an Azure resource (Storage Account)
-		account, err := storage.NewAccount(ctx, "savalheim", &storage.AccountArgs{
-			ResourceGroupName:      resourceGroup.Name,
-			AccountTier:            pulumi.String("Standard"),
-			AccountReplicationType: pulumi.String("LRS"),
-		})
-		if err != nil {
-			return err
-		}
-
-		/*
-			// Create a Load Balancer
-			valheimLoadBalancer, err := lb.NewLoadBalancer(ctx, "lb-valheim", &lb.LoadBalancerArgs{
-				Location:          resourceGroup.Location,
-				ResourceGroupName: resourceGroup.Name,
-				Sku:               pulumi.String("Standard"),
-				FrontendIpConfigurations: lb.LoadBalancerFrontendIpConfigurationArray{
-					&lb.LoadBalancerFrontendIpConfigurationArgs{
-						Name:              pulumi.String("PublicIPAddress"),
-						PublicIpAddressId: valheimPublicIP.ID(),
-					},
-				},
-			})
-			if err != nil {
-				return err
-			}
-
-			valheimBackendPool, err := lb.NewBackendAddressPool(ctx, "bep-valheim", &lb.BackendAddressPoolArgs{
-				LoadbalancerId:    valheimLoadBalancer.ID(),
-				ResourceGroupName: resourceGroup.Name,
-			})
-			if err != nil {
-				return err
-			}
-
-			_, err = network.NewNetworkInterfaceBackendAddressPoolAssociation(ctx, "bepa-valheim", &network.NetworkInterfaceBackendAddressPoolAssociationArgs{
-				NetworkInterfaceId:   mainNetworkInterface.ID(),
-				IpConfigurationName:  pulumi.String("testconfiguration1"),
-				BackendAddressPoolId: valheimBackendPool.ID(),
-			})
-			if err != nil {
-				return err
-			}
-
-			for _, port := range portSlice {
-				portInfo := strings.Split(port, ":")
-
-				portStr := portInfo[1]
-				portInt, err := strconv.Atoi(portStr)
-				portProtocol := portInfo[0]
-				probeName := portStr + "-" + portProtocol + "-probe"
-				ruleName := portStr + "-" + portProtocol + "-rule"
-				probe, err := lb.NewProbe(ctx, probeName, &lb.ProbeArgs{
-					ResourceGroupName: resourceGroup.Name,
-					LoadbalancerId:    valheimLoadBalancer.ID(),
-					Port:              pulumi.Int(portInt),
-				})
-				if err != nil {
-					return err
-				}
-
-				_, err = lb.NewRule(ctx, ruleName, &lb.RuleArgs{
-					ResourceGroupName:           resourceGroup.Name,
-					LoadbalancerId:              valheimLoadBalancer.ID(),
-					Protocol:                    pulumi.String(portProtocol),
-					FrontendPort:                pulumi.Int(portInt),
-					BackendPort:                 pulumi.Int(portInt),
-					FrontendIpConfigurationName: pulumi.String("PublicIPAddress"),
-					BackendAddressPoolId:        valheimBackendPool.ID(),
-					ProbeId:                     probe.ID(),
-				})
-				if err != nil {
-					return err
-				}
-			}
-		*/
-
 		// Export the connection string for the storage account
-		ctx.Export("connectionString", account.PrimaryConnectionString)
 		ctx.Export("VirtualNetworkName", mainVirtualNetwork.Name)
 		ctx.Export("SubnetName", internal.Name)
 		ctx.Export("NicName", mainNetworkInterface.ID())
 		ctx.Export("PublicIp", valheimPublicIP.IpAddress)
-		//ctx.Export("BackendPoolName", valheimBackendPool.Name)
 		return nil
 	})
 }

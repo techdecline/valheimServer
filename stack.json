@@ -1,0 +1,967 @@
+{
+    "version": 3,
+    "deployment": {
+        "manifest": {
+            "time": "2021-02-15T12:14:19.8335946+01:00",
+            "magic": "3b261ba4602b9c2261164c3898be1efda8b44bb816d0a3ea26d93c8dc92ebc76",
+            "version": "v2.20.0"
+        },
+        "secrets_providers": {
+            "type": "service",
+            "state": {
+                "url": "https://api.pulumi.com",
+                "owner": "techdecline",
+                "project": "valheim",
+                "stack": "dev"
+            }
+        },
+        "resources": [
+            {
+                "urn": "urn:pulumi:dev::valheim::pulumi:pulumi:Stack::valheim-dev",
+                "custom": false,
+                "type": "pulumi:pulumi:Stack",
+                "outputs": {
+                    "NicName": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkInterfaces/nic-vm-valheimd2b90152",
+                    "PublicIp": "20.73.143.61",
+                    "SubnetName": "snet-valheim-10-0-2-0_24ebfe0669",
+                    "VirtualNetworkName": "vnet-valheimdacc145a"
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::valheim::pulumi:providers:azure::default",
+                "custom": true,
+                "id": "210dad91-08d5-453b-84ec-c0dae03ba6e7",
+                "type": "pulumi:providers:azure",
+                "inputs": {
+                    "environment": "public",
+                    "version": "3.45.0"
+                },
+                "outputs": {
+                    "environment": "public",
+                    "version": "3.45.0"
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim",
+                "custom": true,
+                "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c",
+                "type": "azure:core/resourceGroup:ResourceGroup",
+                "inputs": {
+                    "__defaults": [
+                        "name"
+                    ],
+                    "location": "WestEurope",
+                    "name": "rg-valheim90abef4c"
+                },
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":5400000000000,\"delete\":5400000000000,\"read\":300000000000,\"update\":5400000000000}}",
+                    "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c",
+                    "location": "westeurope",
+                    "name": "rg-valheim90abef4c",
+                    "tags": {}
+                },
+                "parent": "urn:pulumi:dev::valheim::pulumi:pulumi:Stack::valheim-dev",
+                "provider": "urn:pulumi:dev::valheim::pulumi:providers:azure::default::210dad91-08d5-453b-84ec-c0dae03ba6e7",
+                "propertyDependencies": {
+                    "location": []
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::valheim::azure:network/publicIp:PublicIp::pip-valheim",
+                "custom": true,
+                "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/publicIPAddresses/pip-valheim1692c9ad",
+                "type": "azure:network/publicIp:PublicIp",
+                "inputs": {
+                    "__defaults": [
+                        "idleTimeoutInMinutes",
+                        "ipVersion",
+                        "name"
+                    ],
+                    "allocationMethod": "Static",
+                    "idleTimeoutInMinutes": 4,
+                    "ipVersion": "IPv4",
+                    "location": "westeurope",
+                    "name": "pip-valheim1692c9ad",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "sku": "Standard"
+                },
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":1800000000000,\"delete\":1800000000000,\"read\":300000000000,\"update\":1800000000000}}",
+                    "allocationMethod": "Static",
+                    "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/publicIPAddresses/pip-valheim1692c9ad",
+                    "idleTimeoutInMinutes": 4,
+                    "ipAddress": "20.73.143.61",
+                    "ipVersion": "IPv4",
+                    "location": "westeurope",
+                    "name": "pip-valheim1692c9ad",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "sku": "Standard",
+                    "tags": {},
+                    "zones": null
+                },
+                "parent": "urn:pulumi:dev::valheim::pulumi:pulumi:Stack::valheim-dev",
+                "dependencies": [
+                    "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                ],
+                "provider": "urn:pulumi:dev::valheim::pulumi:providers:azure::default::210dad91-08d5-453b-84ec-c0dae03ba6e7",
+                "propertyDependencies": {
+                    "location": [
+                        "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                    ],
+                    "resourceGroupName": [
+                        "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                    ]
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::valheim::azure:network/virtualNetwork:VirtualNetwork::vnet-valheim",
+                "custom": true,
+                "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/virtualNetworks/vnet-valheimdacc145a",
+                "type": "azure:network/virtualNetwork:VirtualNetwork",
+                "inputs": {
+                    "__defaults": [
+                        "name",
+                        "vmProtectionEnabled"
+                    ],
+                    "addressSpaces": [
+                        "10.0.0.0/16"
+                    ],
+                    "location": "westeurope",
+                    "name": "vnet-valheimdacc145a",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "vmProtectionEnabled": false
+                },
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":1800000000000,\"delete\":1800000000000,\"read\":300000000000,\"update\":1800000000000}}",
+                    "addressSpaces": [
+                        "10.0.0.0/16"
+                    ],
+                    "bgpCommunity": "",
+                    "ddosProtectionPlan": null,
+                    "dnsServers": [],
+                    "guid": "8ff63a15-61fd-4b95-a9cd-9844f02b3a85",
+                    "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/virtualNetworks/vnet-valheimdacc145a",
+                    "location": "westeurope",
+                    "name": "vnet-valheimdacc145a",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "subnets": [],
+                    "tags": {},
+                    "vmProtectionEnabled": false
+                },
+                "parent": "urn:pulumi:dev::valheim::pulumi:pulumi:Stack::valheim-dev",
+                "dependencies": [
+                    "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                ],
+                "provider": "urn:pulumi:dev::valheim::pulumi:providers:azure::default::210dad91-08d5-453b-84ec-c0dae03ba6e7",
+                "propertyDependencies": {
+                    "location": [
+                        "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                    ],
+                    "resourceGroupName": [
+                        "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                    ]
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::valheim::azure:network/networkSecurityGroup:NetworkSecurityGroup::nsg-valheim",
+                "custom": true,
+                "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkSecurityGroups/nsg-valheimddda5036",
+                "type": "azure:network/networkSecurityGroup:NetworkSecurityGroup",
+                "inputs": {
+                    "__defaults": [
+                        "name"
+                    ],
+                    "location": "westeurope",
+                    "name": "nsg-valheimddda5036",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "tags": {
+                        "__defaults": [],
+                        "environment": "staging"
+                    }
+                },
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":1800000000000,\"delete\":1800000000000,\"read\":300000000000,\"update\":1800000000000}}",
+                    "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkSecurityGroups/nsg-valheimddda5036",
+                    "location": "westeurope",
+                    "name": "nsg-valheimddda5036",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "securityRules": [],
+                    "tags": {
+                        "environment": "staging"
+                    }
+                },
+                "parent": "urn:pulumi:dev::valheim::pulumi:pulumi:Stack::valheim-dev",
+                "dependencies": [
+                    "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                ],
+                "provider": "urn:pulumi:dev::valheim::pulumi:providers:azure::default::210dad91-08d5-453b-84ec-c0dae03ba6e7",
+                "propertyDependencies": {
+                    "location": [
+                        "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                    ],
+                    "resourceGroupName": [
+                        "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                    ]
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::valheim::azure:network/subnet:Subnet::snet-valheim-10-0-2-0_24",
+                "custom": true,
+                "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/virtualNetworks/vnet-valheimdacc145a/subnets/snet-valheim-10-0-2-0_24ebfe0669",
+                "type": "azure:network/subnet:Subnet",
+                "inputs": {
+                    "__defaults": [
+                        "enforcePrivateLinkEndpointNetworkPolicies",
+                        "enforcePrivateLinkServiceNetworkPolicies",
+                        "name"
+                    ],
+                    "addressPrefixes": [
+                        "10.0.2.0/24"
+                    ],
+                    "enforcePrivateLinkEndpointNetworkPolicies": false,
+                    "enforcePrivateLinkServiceNetworkPolicies": false,
+                    "name": "snet-valheim-10-0-2-0_24ebfe0669",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "virtualNetworkName": "vnet-valheimdacc145a"
+                },
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":1800000000000,\"delete\":1800000000000,\"read\":300000000000,\"update\":1800000000000}}",
+                    "addressPrefix": "10.0.2.0/24",
+                    "addressPrefixes": [
+                        "10.0.2.0/24"
+                    ],
+                    "delegations": [],
+                    "enforcePrivateLinkEndpointNetworkPolicies": false,
+                    "enforcePrivateLinkServiceNetworkPolicies": false,
+                    "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/virtualNetworks/vnet-valheimdacc145a/subnets/snet-valheim-10-0-2-0_24ebfe0669",
+                    "name": "snet-valheim-10-0-2-0_24ebfe0669",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "serviceEndpointPolicyIds": [],
+                    "serviceEndpoints": [],
+                    "virtualNetworkName": "vnet-valheimdacc145a"
+                },
+                "parent": "urn:pulumi:dev::valheim::pulumi:pulumi:Stack::valheim-dev",
+                "dependencies": [
+                    "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim",
+                    "urn:pulumi:dev::valheim::azure:network/virtualNetwork:VirtualNetwork::vnet-valheim"
+                ],
+                "provider": "urn:pulumi:dev::valheim::pulumi:providers:azure::default::210dad91-08d5-453b-84ec-c0dae03ba6e7",
+                "propertyDependencies": {
+                    "resourceGroupName": [
+                        "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                    ],
+                    "virtualNetworkName": [
+                        "urn:pulumi:dev::valheim::azure:network/virtualNetwork:VirtualNetwork::vnet-valheim"
+                    ]
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::valheim::azure:network/subnetNetworkSecurityGroupAssociation:SubnetNetworkSecurityGroupAssociation::valheimSubnetNetworkSecurityGroupAssociation",
+                "custom": true,
+                "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/virtualNetworks/vnet-valheimdacc145a/subnets/snet-valheim-10-0-2-0_24ebfe0669",
+                "type": "azure:network/subnetNetworkSecurityGroupAssociation:SubnetNetworkSecurityGroupAssociation",
+                "inputs": {
+                    "__defaults": [],
+                    "networkSecurityGroupId": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkSecurityGroups/nsg-valheimddda5036",
+                    "subnetId": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/virtualNetworks/vnet-valheimdacc145a/subnets/snet-valheim-10-0-2-0_24ebfe0669"
+                },
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":1800000000000,\"delete\":1800000000000,\"read\":300000000000,\"update\":1800000000000}}",
+                    "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/virtualNetworks/vnet-valheimdacc145a/subnets/snet-valheim-10-0-2-0_24ebfe0669",
+                    "networkSecurityGroupId": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkSecurityGroups/nsg-valheimddda5036",
+                    "subnetId": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/virtualNetworks/vnet-valheimdacc145a/subnets/snet-valheim-10-0-2-0_24ebfe0669"
+                },
+                "parent": "urn:pulumi:dev::valheim::pulumi:pulumi:Stack::valheim-dev",
+                "dependencies": [
+                    "urn:pulumi:dev::valheim::azure:network/networkSecurityGroup:NetworkSecurityGroup::nsg-valheim",
+                    "urn:pulumi:dev::valheim::azure:network/subnet:Subnet::snet-valheim-10-0-2-0_24"
+                ],
+                "provider": "urn:pulumi:dev::valheim::pulumi:providers:azure::default::210dad91-08d5-453b-84ec-c0dae03ba6e7",
+                "propertyDependencies": {
+                    "networkSecurityGroupId": [
+                        "urn:pulumi:dev::valheim::azure:network/networkSecurityGroup:NetworkSecurityGroup::nsg-valheim"
+                    ],
+                    "subnetId": [
+                        "urn:pulumi:dev::valheim::azure:network/subnet:Subnet::snet-valheim-10-0-2-0_24"
+                    ]
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::valheim::azure:network/networkSecurityRule:NetworkSecurityRule::2458-Tcp-rule",
+                "custom": true,
+                "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkSecurityGroups/nsg-valheimddda5036/securityRules/2458-tcp-rule9be743d5",
+                "type": "azure:network/networkSecurityRule:NetworkSecurityRule",
+                "inputs": {
+                    "__defaults": [
+                        "name"
+                    ],
+                    "access": "Allow",
+                    "destinationAddressPrefix": "*",
+                    "destinationPortRange": "2458",
+                    "direction": "Inbound",
+                    "name": "2458-tcp-rule9be743d5",
+                    "networkSecurityGroupName": "nsg-valheimddda5036",
+                    "priority": 107,
+                    "protocol": "Tcp",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "sourceAddressPrefix": "*",
+                    "sourcePortRange": "*"
+                },
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":1800000000000,\"delete\":1800000000000,\"read\":300000000000,\"update\":1800000000000}}",
+                    "access": "Allow",
+                    "description": "",
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "destinationApplicationSecurityGroupIds": null,
+                    "destinationPortRange": "2458",
+                    "destinationPortRanges": [],
+                    "direction": "Inbound",
+                    "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkSecurityGroups/nsg-valheimddda5036/securityRules/2458-tcp-rule9be743d5",
+                    "name": "2458-tcp-rule9be743d5",
+                    "networkSecurityGroupName": "nsg-valheimddda5036",
+                    "priority": 107,
+                    "protocol": "Tcp",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "sourceAddressPrefix": "*",
+                    "sourceAddressPrefixes": [],
+                    "sourceApplicationSecurityGroupIds": null,
+                    "sourcePortRange": "*",
+                    "sourcePortRanges": []
+                },
+                "parent": "urn:pulumi:dev::valheim::pulumi:pulumi:Stack::valheim-dev",
+                "dependencies": [
+                    "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim",
+                    "urn:pulumi:dev::valheim::azure:network/networkSecurityGroup:NetworkSecurityGroup::nsg-valheim"
+                ],
+                "provider": "urn:pulumi:dev::valheim::pulumi:providers:azure::default::210dad91-08d5-453b-84ec-c0dae03ba6e7",
+                "propertyDependencies": {
+                    "networkSecurityGroupName": [
+                        "urn:pulumi:dev::valheim::azure:network/networkSecurityGroup:NetworkSecurityGroup::nsg-valheim"
+                    ],
+                    "resourceGroupName": [
+                        "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                    ]
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::valheim::azure:network/networkInterface:NetworkInterface::nic-vm-valheim",
+                "custom": true,
+                "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkInterfaces/nic-vm-valheimd2b90152",
+                "type": "azure:network/networkInterface:NetworkInterface",
+                "inputs": {
+                    "__defaults": [
+                        "enableAcceleratedNetworking",
+                        "enableIpForwarding",
+                        "name"
+                    ],
+                    "enableAcceleratedNetworking": false,
+                    "enableIpForwarding": false,
+                    "ipConfigurations": [
+                        {
+                            "__defaults": [
+                                "privateIpAddressVersion"
+                            ],
+                            "name": "testconfiguration1",
+                            "privateIpAddressAllocation": "Dynamic",
+                            "privateIpAddressVersion": "IPv4",
+                            "publicIpAddressId": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/publicIPAddresses/pip-valheim1692c9ad",
+                            "subnetId": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/virtualNetworks/vnet-valheimdacc145a/subnets/snet-valheim-10-0-2-0_24ebfe0669"
+                        }
+                    ],
+                    "location": "westeurope",
+                    "name": "nic-vm-valheimd2b90152",
+                    "resourceGroupName": "rg-valheim90abef4c"
+                },
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":1800000000000,\"delete\":1800000000000,\"read\":300000000000,\"update\":1800000000000}}",
+                    "appliedDnsServers": [],
+                    "dnsServers": [],
+                    "enableAcceleratedNetworking": false,
+                    "enableIpForwarding": false,
+                    "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkInterfaces/nic-vm-valheimd2b90152",
+                    "internalDnsNameLabel": "",
+                    "internalDomainNameSuffix": "cu3pnd53mgkuxkontbcpakz0qf.ax.internal.cloudapp.net",
+                    "ipConfigurations": [
+                        {
+                            "name": "testconfiguration1",
+                            "primary": true,
+                            "privateIpAddress": "10.0.2.4",
+                            "privateIpAddressAllocation": "Dynamic",
+                            "privateIpAddressVersion": "IPv4",
+                            "publicIpAddressId": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/publicIPAddresses/pip-valheim1692c9ad",
+                            "subnetId": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/virtualNetworks/vnet-valheimdacc145a/subnets/snet-valheim-10-0-2-0_24ebfe0669"
+                        }
+                    ],
+                    "location": "westeurope",
+                    "macAddress": "",
+                    "name": "nic-vm-valheimd2b90152",
+                    "privateIpAddress": "10.0.2.4",
+                    "privateIpAddresses": [
+                        "10.0.2.4"
+                    ],
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "tags": {},
+                    "virtualMachineId": ""
+                },
+                "parent": "urn:pulumi:dev::valheim::pulumi:pulumi:Stack::valheim-dev",
+                "dependencies": [
+                    "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim",
+                    "urn:pulumi:dev::valheim::azure:network/publicIp:PublicIp::pip-valheim",
+                    "urn:pulumi:dev::valheim::azure:network/subnet:Subnet::snet-valheim-10-0-2-0_24"
+                ],
+                "provider": "urn:pulumi:dev::valheim::pulumi:providers:azure::default::210dad91-08d5-453b-84ec-c0dae03ba6e7",
+                "propertyDependencies": {
+                    "ipConfigurations": [
+                        "urn:pulumi:dev::valheim::azure:network/publicIp:PublicIp::pip-valheim",
+                        "urn:pulumi:dev::valheim::azure:network/subnet:Subnet::snet-valheim-10-0-2-0_24"
+                    ],
+                    "location": [
+                        "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                    ],
+                    "resourceGroupName": [
+                        "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                    ]
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::valheim::azure:network/networkSecurityRule:NetworkSecurityRule::2458-Udp-rule",
+                "custom": true,
+                "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkSecurityGroups/nsg-valheimddda5036/securityRules/2458-udp-rulecf4dacef",
+                "type": "azure:network/networkSecurityRule:NetworkSecurityRule",
+                "inputs": {
+                    "__defaults": [
+                        "name"
+                    ],
+                    "access": "Allow",
+                    "destinationAddressPrefix": "*",
+                    "destinationPortRange": "2458",
+                    "direction": "Inbound",
+                    "name": "2458-udp-rulecf4dacef",
+                    "networkSecurityGroupName": "nsg-valheimddda5036",
+                    "priority": 108,
+                    "protocol": "Udp",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "sourceAddressPrefix": "*",
+                    "sourcePortRange": "*"
+                },
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":1800000000000,\"delete\":1800000000000,\"read\":300000000000,\"update\":1800000000000}}",
+                    "access": "Allow",
+                    "description": "",
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "destinationApplicationSecurityGroupIds": null,
+                    "destinationPortRange": "2458",
+                    "destinationPortRanges": [],
+                    "direction": "Inbound",
+                    "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkSecurityGroups/nsg-valheimddda5036/securityRules/2458-udp-rulecf4dacef",
+                    "name": "2458-udp-rulecf4dacef",
+                    "networkSecurityGroupName": "nsg-valheimddda5036",
+                    "priority": 108,
+                    "protocol": "Udp",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "sourceAddressPrefix": "*",
+                    "sourceAddressPrefixes": [],
+                    "sourceApplicationSecurityGroupIds": null,
+                    "sourcePortRange": "*",
+                    "sourcePortRanges": []
+                },
+                "parent": "urn:pulumi:dev::valheim::pulumi:pulumi:Stack::valheim-dev",
+                "dependencies": [
+                    "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim",
+                    "urn:pulumi:dev::valheim::azure:network/networkSecurityGroup:NetworkSecurityGroup::nsg-valheim"
+                ],
+                "provider": "urn:pulumi:dev::valheim::pulumi:providers:azure::default::210dad91-08d5-453b-84ec-c0dae03ba6e7",
+                "propertyDependencies": {
+                    "networkSecurityGroupName": [
+                        "urn:pulumi:dev::valheim::azure:network/networkSecurityGroup:NetworkSecurityGroup::nsg-valheim"
+                    ],
+                    "resourceGroupName": [
+                        "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                    ]
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::valheim::azure:network/networkSecurityRule:NetworkSecurityRule::2456-Udp-rule",
+                "custom": true,
+                "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkSecurityGroups/nsg-valheimddda5036/securityRules/2456-udp-rulef550feaa",
+                "type": "azure:network/networkSecurityRule:NetworkSecurityRule",
+                "inputs": {
+                    "__defaults": [
+                        "name"
+                    ],
+                    "access": "Allow",
+                    "destinationAddressPrefix": "*",
+                    "destinationPortRange": "2456",
+                    "direction": "Inbound",
+                    "name": "2456-udp-rulef550feaa",
+                    "networkSecurityGroupName": "nsg-valheimddda5036",
+                    "priority": 104,
+                    "protocol": "Udp",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "sourceAddressPrefix": "*",
+                    "sourcePortRange": "*"
+                },
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":1800000000000,\"delete\":1800000000000,\"read\":300000000000,\"update\":1800000000000}}",
+                    "access": "Allow",
+                    "description": "",
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "destinationApplicationSecurityGroupIds": null,
+                    "destinationPortRange": "2456",
+                    "destinationPortRanges": [],
+                    "direction": "Inbound",
+                    "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkSecurityGroups/nsg-valheimddda5036/securityRules/2456-udp-rulef550feaa",
+                    "name": "2456-udp-rulef550feaa",
+                    "networkSecurityGroupName": "nsg-valheimddda5036",
+                    "priority": 104,
+                    "protocol": "Udp",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "sourceAddressPrefix": "*",
+                    "sourceAddressPrefixes": [],
+                    "sourceApplicationSecurityGroupIds": null,
+                    "sourcePortRange": "*",
+                    "sourcePortRanges": []
+                },
+                "parent": "urn:pulumi:dev::valheim::pulumi:pulumi:Stack::valheim-dev",
+                "dependencies": [
+                    "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim",
+                    "urn:pulumi:dev::valheim::azure:network/networkSecurityGroup:NetworkSecurityGroup::nsg-valheim"
+                ],
+                "provider": "urn:pulumi:dev::valheim::pulumi:providers:azure::default::210dad91-08d5-453b-84ec-c0dae03ba6e7",
+                "propertyDependencies": {
+                    "networkSecurityGroupName": [
+                        "urn:pulumi:dev::valheim::azure:network/networkSecurityGroup:NetworkSecurityGroup::nsg-valheim"
+                    ],
+                    "resourceGroupName": [
+                        "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                    ]
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::valheim::azure:network/networkSecurityRule:NetworkSecurityRule::3389-Udp-rule",
+                "custom": true,
+                "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkSecurityGroups/nsg-valheimddda5036/securityRules/3389-udp-ruled73dfb86",
+                "type": "azure:network/networkSecurityRule:NetworkSecurityRule",
+                "inputs": {
+                    "__defaults": [
+                        "name"
+                    ],
+                    "access": "Allow",
+                    "destinationAddressPrefix": "*",
+                    "destinationPortRange": "3389",
+                    "direction": "Inbound",
+                    "name": "3389-udp-ruled73dfb86",
+                    "networkSecurityGroupName": "nsg-valheimddda5036",
+                    "priority": 102,
+                    "protocol": "Udp",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "sourceAddressPrefix": "*",
+                    "sourcePortRange": "*"
+                },
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":1800000000000,\"delete\":1800000000000,\"read\":300000000000,\"update\":1800000000000}}",
+                    "access": "Allow",
+                    "description": "",
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "destinationApplicationSecurityGroupIds": null,
+                    "destinationPortRange": "3389",
+                    "destinationPortRanges": [],
+                    "direction": "Inbound",
+                    "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkSecurityGroups/nsg-valheimddda5036/securityRules/3389-udp-ruled73dfb86",
+                    "name": "3389-udp-ruled73dfb86",
+                    "networkSecurityGroupName": "nsg-valheimddda5036",
+                    "priority": 102,
+                    "protocol": "Udp",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "sourceAddressPrefix": "*",
+                    "sourceAddressPrefixes": [],
+                    "sourceApplicationSecurityGroupIds": null,
+                    "sourcePortRange": "*",
+                    "sourcePortRanges": []
+                },
+                "parent": "urn:pulumi:dev::valheim::pulumi:pulumi:Stack::valheim-dev",
+                "dependencies": [
+                    "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim",
+                    "urn:pulumi:dev::valheim::azure:network/networkSecurityGroup:NetworkSecurityGroup::nsg-valheim"
+                ],
+                "provider": "urn:pulumi:dev::valheim::pulumi:providers:azure::default::210dad91-08d5-453b-84ec-c0dae03ba6e7",
+                "propertyDependencies": {
+                    "networkSecurityGroupName": [
+                        "urn:pulumi:dev::valheim::azure:network/networkSecurityGroup:NetworkSecurityGroup::nsg-valheim"
+                    ],
+                    "resourceGroupName": [
+                        "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                    ]
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::valheim::azure:network/networkSecurityRule:NetworkSecurityRule::2457-Tcp-rule",
+                "custom": true,
+                "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkSecurityGroups/nsg-valheimddda5036/securityRules/2457-tcp-rule69e5c7dc",
+                "type": "azure:network/networkSecurityRule:NetworkSecurityRule",
+                "inputs": {
+                    "__defaults": [
+                        "name"
+                    ],
+                    "access": "Allow",
+                    "destinationAddressPrefix": "*",
+                    "destinationPortRange": "2457",
+                    "direction": "Inbound",
+                    "name": "2457-tcp-rule69e5c7dc",
+                    "networkSecurityGroupName": "nsg-valheimddda5036",
+                    "priority": 105,
+                    "protocol": "Tcp",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "sourceAddressPrefix": "*",
+                    "sourcePortRange": "*"
+                },
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":1800000000000,\"delete\":1800000000000,\"read\":300000000000,\"update\":1800000000000}}",
+                    "access": "Allow",
+                    "description": "",
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "destinationApplicationSecurityGroupIds": null,
+                    "destinationPortRange": "2457",
+                    "destinationPortRanges": [],
+                    "direction": "Inbound",
+                    "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkSecurityGroups/nsg-valheimddda5036/securityRules/2457-tcp-rule69e5c7dc",
+                    "name": "2457-tcp-rule69e5c7dc",
+                    "networkSecurityGroupName": "nsg-valheimddda5036",
+                    "priority": 105,
+                    "protocol": "Tcp",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "sourceAddressPrefix": "*",
+                    "sourceAddressPrefixes": [],
+                    "sourceApplicationSecurityGroupIds": null,
+                    "sourcePortRange": "*",
+                    "sourcePortRanges": []
+                },
+                "parent": "urn:pulumi:dev::valheim::pulumi:pulumi:Stack::valheim-dev",
+                "dependencies": [
+                    "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim",
+                    "urn:pulumi:dev::valheim::azure:network/networkSecurityGroup:NetworkSecurityGroup::nsg-valheim"
+                ],
+                "provider": "urn:pulumi:dev::valheim::pulumi:providers:azure::default::210dad91-08d5-453b-84ec-c0dae03ba6e7",
+                "propertyDependencies": {
+                    "networkSecurityGroupName": [
+                        "urn:pulumi:dev::valheim::azure:network/networkSecurityGroup:NetworkSecurityGroup::nsg-valheim"
+                    ],
+                    "resourceGroupName": [
+                        "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                    ]
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::valheim::azure:network/networkSecurityRule:NetworkSecurityRule::2456-Tcp-rule",
+                "custom": true,
+                "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkSecurityGroups/nsg-valheimddda5036/securityRules/2456-tcp-rulec1375302",
+                "type": "azure:network/networkSecurityRule:NetworkSecurityRule",
+                "inputs": {
+                    "__defaults": [
+                        "name"
+                    ],
+                    "access": "Allow",
+                    "destinationAddressPrefix": "*",
+                    "destinationPortRange": "2456",
+                    "direction": "Inbound",
+                    "name": "2456-tcp-rulec1375302",
+                    "networkSecurityGroupName": "nsg-valheimddda5036",
+                    "priority": 103,
+                    "protocol": "Tcp",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "sourceAddressPrefix": "*",
+                    "sourcePortRange": "*"
+                },
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":1800000000000,\"delete\":1800000000000,\"read\":300000000000,\"update\":1800000000000}}",
+                    "access": "Allow",
+                    "description": "",
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "destinationApplicationSecurityGroupIds": null,
+                    "destinationPortRange": "2456",
+                    "destinationPortRanges": [],
+                    "direction": "Inbound",
+                    "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkSecurityGroups/nsg-valheimddda5036/securityRules/2456-tcp-rulec1375302",
+                    "name": "2456-tcp-rulec1375302",
+                    "networkSecurityGroupName": "nsg-valheimddda5036",
+                    "priority": 103,
+                    "protocol": "Tcp",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "sourceAddressPrefix": "*",
+                    "sourceAddressPrefixes": [],
+                    "sourceApplicationSecurityGroupIds": null,
+                    "sourcePortRange": "*",
+                    "sourcePortRanges": []
+                },
+                "parent": "urn:pulumi:dev::valheim::pulumi:pulumi:Stack::valheim-dev",
+                "dependencies": [
+                    "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim",
+                    "urn:pulumi:dev::valheim::azure:network/networkSecurityGroup:NetworkSecurityGroup::nsg-valheim"
+                ],
+                "provider": "urn:pulumi:dev::valheim::pulumi:providers:azure::default::210dad91-08d5-453b-84ec-c0dae03ba6e7",
+                "propertyDependencies": {
+                    "networkSecurityGroupName": [
+                        "urn:pulumi:dev::valheim::azure:network/networkSecurityGroup:NetworkSecurityGroup::nsg-valheim"
+                    ],
+                    "resourceGroupName": [
+                        "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                    ]
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::valheim::azure:network/networkSecurityRule:NetworkSecurityRule::2457-Udp-rule",
+                "custom": true,
+                "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkSecurityGroups/nsg-valheimddda5036/securityRules/2457-udp-rule40572099",
+                "type": "azure:network/networkSecurityRule:NetworkSecurityRule",
+                "inputs": {
+                    "__defaults": [
+                        "name"
+                    ],
+                    "access": "Allow",
+                    "destinationAddressPrefix": "*",
+                    "destinationPortRange": "2457",
+                    "direction": "Inbound",
+                    "name": "2457-udp-rule40572099",
+                    "networkSecurityGroupName": "nsg-valheimddda5036",
+                    "priority": 106,
+                    "protocol": "Udp",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "sourceAddressPrefix": "*",
+                    "sourcePortRange": "*"
+                },
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":1800000000000,\"delete\":1800000000000,\"read\":300000000000,\"update\":1800000000000}}",
+                    "access": "Allow",
+                    "description": "",
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "destinationApplicationSecurityGroupIds": null,
+                    "destinationPortRange": "2457",
+                    "destinationPortRanges": [],
+                    "direction": "Inbound",
+                    "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkSecurityGroups/nsg-valheimddda5036/securityRules/2457-udp-rule40572099",
+                    "name": "2457-udp-rule40572099",
+                    "networkSecurityGroupName": "nsg-valheimddda5036",
+                    "priority": 106,
+                    "protocol": "Udp",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "sourceAddressPrefix": "*",
+                    "sourceAddressPrefixes": [],
+                    "sourceApplicationSecurityGroupIds": null,
+                    "sourcePortRange": "*",
+                    "sourcePortRanges": []
+                },
+                "parent": "urn:pulumi:dev::valheim::pulumi:pulumi:Stack::valheim-dev",
+                "dependencies": [
+                    "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim",
+                    "urn:pulumi:dev::valheim::azure:network/networkSecurityGroup:NetworkSecurityGroup::nsg-valheim"
+                ],
+                "provider": "urn:pulumi:dev::valheim::pulumi:providers:azure::default::210dad91-08d5-453b-84ec-c0dae03ba6e7",
+                "propertyDependencies": {
+                    "networkSecurityGroupName": [
+                        "urn:pulumi:dev::valheim::azure:network/networkSecurityGroup:NetworkSecurityGroup::nsg-valheim"
+                    ],
+                    "resourceGroupName": [
+                        "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                    ]
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::valheim::azure:network/networkSecurityRule:NetworkSecurityRule::3389-Tcp-rule",
+                "custom": true,
+                "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkSecurityGroups/nsg-valheimddda5036/securityRules/3389-tcp-rule061c0c2c",
+                "type": "azure:network/networkSecurityRule:NetworkSecurityRule",
+                "inputs": {
+                    "__defaults": [
+                        "name"
+                    ],
+                    "access": "Allow",
+                    "destinationAddressPrefix": "*",
+                    "destinationPortRange": "3389",
+                    "direction": "Inbound",
+                    "name": "3389-tcp-rule061c0c2c",
+                    "networkSecurityGroupName": "nsg-valheimddda5036",
+                    "priority": 101,
+                    "protocol": "Tcp",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "sourceAddressPrefix": "*",
+                    "sourcePortRange": "*"
+                },
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":1800000000000,\"delete\":1800000000000,\"read\":300000000000,\"update\":1800000000000}}",
+                    "access": "Allow",
+                    "description": "",
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "destinationApplicationSecurityGroupIds": null,
+                    "destinationPortRange": "3389",
+                    "destinationPortRanges": [],
+                    "direction": "Inbound",
+                    "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkSecurityGroups/nsg-valheimddda5036/securityRules/3389-tcp-rule061c0c2c",
+                    "name": "3389-tcp-rule061c0c2c",
+                    "networkSecurityGroupName": "nsg-valheimddda5036",
+                    "priority": 101,
+                    "protocol": "Tcp",
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "sourceAddressPrefix": "*",
+                    "sourceAddressPrefixes": [],
+                    "sourceApplicationSecurityGroupIds": null,
+                    "sourcePortRange": "*",
+                    "sourcePortRanges": []
+                },
+                "parent": "urn:pulumi:dev::valheim::pulumi:pulumi:Stack::valheim-dev",
+                "dependencies": [
+                    "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim",
+                    "urn:pulumi:dev::valheim::azure:network/networkSecurityGroup:NetworkSecurityGroup::nsg-valheim"
+                ],
+                "provider": "urn:pulumi:dev::valheim::pulumi:providers:azure::default::210dad91-08d5-453b-84ec-c0dae03ba6e7",
+                "propertyDependencies": {
+                    "networkSecurityGroupName": [
+                        "urn:pulumi:dev::valheim::azure:network/networkSecurityGroup:NetworkSecurityGroup::nsg-valheim"
+                    ],
+                    "resourceGroupName": [
+                        "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                    ]
+                }
+            },
+            {
+                "urn": "urn:pulumi:dev::valheim::azure:compute/virtualMachine:VirtualMachine::vm-valheim",
+                "custom": true,
+                "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Compute/virtualMachines/vm-valheimae573178",
+                "type": "azure:compute/virtualMachine:VirtualMachine",
+                "inputs": {
+                    "__defaults": [
+                        "deleteDataDisksOnTermination",
+                        "deleteOsDiskOnTermination",
+                        "name"
+                    ],
+                    "deleteDataDisksOnTermination": false,
+                    "deleteOsDiskOnTermination": false,
+                    "location": "westeurope",
+                    "name": "vm-valheimae573178",
+                    "networkInterfaceIds": [
+                        "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkInterfaces/nic-vm-valheimd2b90152"
+                    ],
+                    "osProfile": {
+                        "__defaults": [],
+                        "adminPassword": "Password1234!",
+                        "adminUsername": "testadmin",
+                        "computerName": "vm-valheim"
+                    },
+                    "osProfileWindowsConfig": {
+                        "__defaults": [
+                            "provisionVmAgent"
+                        ],
+                        "enableAutomaticUpgrades": true,
+                        "provisionVmAgent": false,
+                        "timezone": "W. Europe Standard Time"
+                    },
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "storageImageReference": {
+                        "__defaults": [],
+                        "offer": "WindowsServer",
+                        "publisher": "MicrosoftWindowsServer",
+                        "sku": "2019-Datacenter",
+                        "version": "latest"
+                    },
+                    "storageOsDisk": {
+                        "__defaults": [
+                            "writeAcceleratorEnabled"
+                        ],
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage",
+                        "managedDiskType": "Standard_LRS",
+                        "name": "myosdisk1",
+                        "writeAcceleratorEnabled": false
+                    },
+                    "tags": {
+                        "__defaults": [],
+                        "environment": "staging"
+                    },
+                    "vmSize": "Standard_DS2_v2"
+                },
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":3600000000000,\"delete\":3600000000000,\"read\":300000000000,\"update\":3600000000000}}",
+                    "additionalCapabilities": null,
+                    "deleteDataDisksOnTermination": false,
+                    "deleteOsDiskOnTermination": false,
+                    "id": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Compute/virtualMachines/vm-valheimae573178",
+                    "identity": null,
+                    "location": "westeurope",
+                    "name": "vm-valheimae573178",
+                    "networkInterfaceIds": [
+                        "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Network/networkInterfaces/nic-vm-valheimd2b90152"
+                    ],
+                    "osProfile": {
+                        "adminPassword": {
+                            "4dabf18193072939515e22adb298388d": "1b47061264138c4ac30d75fd1eb44270",
+                            "ciphertext": "AAABAMBWuhmFmW//Q+uDBUoLuDOkCiYlGYCJFZheZFvEuQ=="
+                        },
+                        "adminUsername": "testadmin",
+                        "computerName": "vm-valheim",
+                        "customData": ""
+                    },
+                    "osProfileLinuxConfig": null,
+                    "osProfileSecrets": [],
+                    "osProfileWindowsConfig": {
+                        "additionalUnattendConfigs": [],
+                        "enableAutomaticUpgrades": true,
+                        "provisionVmAgent": false,
+                        "timezone": "W. Europe Standard Time",
+                        "winrms": []
+                    },
+                    "plan": null,
+                    "resourceGroupName": "rg-valheim90abef4c",
+                    "storageDataDisks": [],
+                    "storageImageReference": {
+                        "id": "",
+                        "offer": "WindowsServer",
+                        "publisher": "MicrosoftWindowsServer",
+                        "sku": "2019-Datacenter",
+                        "version": "latest"
+                    },
+                    "storageOsDisk": {
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage",
+                        "diskSizeGb": 127,
+                        "imageUri": "",
+                        "managedDiskId": "/subscriptions/e166ce19-2823-4efb-856a-075c6b02ca87/resourceGroups/rg-valheim90abef4c/providers/Microsoft.Compute/disks/myosdisk1",
+                        "managedDiskType": "Standard_LRS",
+                        "name": "myosdisk1",
+                        "osType": "Windows",
+                        "vhdUri": "",
+                        "writeAcceleratorEnabled": false
+                    },
+                    "tags": {
+                        "environment": "staging"
+                    },
+                    "vmSize": "Standard_DS2_v2",
+                    "zones": null
+                },
+                "parent": "urn:pulumi:dev::valheim::pulumi:pulumi:Stack::valheim-dev",
+                "dependencies": [
+                    "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim",
+                    "urn:pulumi:dev::valheim::azure:network/networkInterface:NetworkInterface::nic-vm-valheim"
+                ],
+                "provider": "urn:pulumi:dev::valheim::pulumi:providers:azure::default::210dad91-08d5-453b-84ec-c0dae03ba6e7",
+                "propertyDependencies": {
+                    "location": [
+                        "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                    ],
+                    "networkInterfaceIds": [
+                        "urn:pulumi:dev::valheim::azure:network/networkInterface:NetworkInterface::nic-vm-valheim"
+                    ],
+                    "resourceGroupName": [
+                        "urn:pulumi:dev::valheim::azure:core/resourceGroup:ResourceGroup::rg-valheim"
+                    ]
+                }
+            }
+        ]
+    }
+}
