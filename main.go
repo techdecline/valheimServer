@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/pulumi/pulumi-azure/sdk/v3/go/azure/appservice"
+	"github.com/pulumi/pulumi-azure/sdk/v3/go/azure/authorization"
 	"github.com/pulumi/pulumi-azure/sdk/v3/go/azure/compute"
 	"github.com/pulumi/pulumi-azure/sdk/v3/go/azure/core"
 	"github.com/pulumi/pulumi-azure/sdk/v3/go/azure/network"
@@ -17,6 +18,7 @@ func main() {
 		storageAccountName := "sapulumi" + ctx.Stack()
 		appServicePlanName := "asppulumi" + ctx.Stack()
 		fnName := "fnpulumi" + ctx.Stack()
+
 		portSlice := []string{"Tcp:3389", "Udp:3389", "Tcp:2456", "Udp:2456", "Tcp:2457", "Udp:2457", "Tcp:2458", "Udp:2458"}
 
 		// Create an Azure Resource Group
@@ -171,13 +173,13 @@ func main() {
 		}
 
 		// Create Virtual Machine
-		_, err = compute.NewVirtualMachine(ctx, vmName, &compute.VirtualMachineArgs{
+		vm, err := compute.NewVirtualMachine(ctx, vmName, &compute.VirtualMachineArgs{
 			Location:          resourceGroup.Location,
 			ResourceGroupName: resourceGroup.Name,
 			NetworkInterfaceIds: pulumi.StringArray{
 				mainNetworkInterface.ID(),
 			},
-			VmSize: pulumi.String("Standard_DS2_v2"),
+			VmSize: pulumi.String("Standard_DS4_v2"),
 			StorageImageReference: &compute.VirtualMachineStorageImageReferenceArgs{
 				Publisher: pulumi.String("MicrosoftWindowsServer"),
 				Offer:     pulumi.String("WindowsServer"),
@@ -202,6 +204,16 @@ func main() {
 			Tags: pulumi.StringMap{
 				"environment": pulumi.String("staging"),
 			},
+		})
+		if err != nil {
+			return err
+		}
+
+		// Role Assignment for Virtual Machine
+		_, err = authorization.NewAssignment(ctx, "vmContributor", &authorization.AssignmentArgs{
+			Scope:              vm.ID(),
+			RoleDefinitionName: pulumi.String("Virtual Machine Contributor"),
+			PrincipalId:        fnApp.Identity.PrincipalId().Elem().ToStringOutput(),
 		})
 		if err != nil {
 			return err
